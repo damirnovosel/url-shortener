@@ -3,7 +3,7 @@ package com.urlshortener.rest.impl;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
@@ -13,7 +13,7 @@ import org.slf4j.Logger;
 
 import com.urlshortener.rest.api.UrlShortener;
 
-@RequestScoped
+@ApplicationScoped
 public class RestUrlShortener implements UrlShortener {
 
 	@Inject
@@ -34,12 +34,12 @@ public class RestUrlShortener implements UrlShortener {
 
 	@Override
 	public Response expandUrl(@PathParam("shortUrl") String shortUrl) {
-		logger.info("Expanding: {}", shortUrl);
+		// logger.info("Expanding: {}", shortUrl);
 		String longUrl = shortenerService.expandUrl(shortUrl);
 		if (null != longUrl) {
 			try {
 				URI uri = new URI(longUrl);
-				logger.info("Sending redirect to: {}", uri);
+				// logger.info("Sending redirect to: {}", uri);
 				return Response.temporaryRedirect(uri).build();
 			} catch (URISyntaxException e) {
 				// fall through

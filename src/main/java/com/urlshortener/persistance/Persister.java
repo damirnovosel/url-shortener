@@ -5,16 +5,31 @@ import java.time.Instant;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
+import org.slf4j.Logger;
 
 import io.quarkus.scheduler.Scheduled;
 
 @ApplicationScoped
 public class Persister {
 
-	Map<String, CompleteUrl> urls = new ConcurrentHashMap<>();
+	@Inject
+	Logger logger;
+
+	Map<String, CompleteUrl> urls = new ConcurrentHashMap<>(10000);
+
+	public int size() {
+		return urls.size();
+	}
+
+	public void invalidateAll() {
+		urls.clear();
+	}
 
 	public void persist(String shortUrl, CompleteUrl completeUrl) {
 		urls.put(shortUrl, completeUrl);
@@ -29,14 +44,17 @@ public class Persister {
 		}
 	}
 
+	public Set<String> getUrls() {
+		return urls.keySet();
+	}
+
 	@Scheduled(every = "60s")
-	private void invalidateUrls() {
+	public void invalidateUrls() {
 		Instant now = Instant.now();
 		Iterator<Entry<String, CompleteUrl>> it = urls.entrySet().iterator();
 		while (it.hasNext()) {
 			CompleteUrl cUrl = it.next().getValue();
-			Duration dur = Duration.between(cUrl.getLastAccessTime(), now);
-			if (dur.getSeconds() > cUrl.getValidity().getSeconds()) {
+			if (Duration.between(cUrl.getLastAccessTime(), now).getSeconds() > cUrl.getValidity().getSeconds()) {
 				it.remove(); // expired
 			}
 		}

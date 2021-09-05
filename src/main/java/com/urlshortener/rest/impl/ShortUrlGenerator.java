@@ -1,14 +1,15 @@
 package com.urlshortener.rest.impl;
 
+import java.util.concurrent.atomic.AtomicLong;
+
 import javax.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class ShortUrlGenerator {
-	private static Long id = 1L;
+	private static AtomicLong id = new AtomicLong(1L);
 
 	public static String next() {
-		String value = id.toString();
-		id++;
-		return value;
+		Long value = id.addAndGet(1L);
+		return value.toString();
 	}
 }

@@ -19,14 +19,14 @@ public class UrlShortenerServiceTest {
 
 	@Test
 	void shouldReturnDifferentShortUrlsForSameLongUrls() {
-		String short1 = testedService.shortenUrl(longUrl);
-		String short2 = testedService.shortenUrl(longUrl);
+		String short1 = testedService.shortenUrl(longUrl, "owner");
+		String short2 = testedService.shortenUrl(longUrl, "owner");
 		Assertions.assertNotEquals(short1, short2);
 	}
 
 	@Test
 	void shouldExpandUrl() {
-		String short1 = testedService.shortenUrl(longUrl);
+		String short1 = testedService.shortenUrl(longUrl, "owner");
 		Assertions.assertEquals(longUrl, testedService.expandUrl(short1));
 	}
 

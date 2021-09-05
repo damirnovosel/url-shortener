@@ -11,10 +11,13 @@ public class CompleteUrl {
 
 	Duration validity;
 
-	public CompleteUrl(String longUrl, Long retentionPeriodHours) {
+	String ownerId;
+
+	public CompleteUrl(String longUrl, Long retentionPeriodHours, String owner) {
 		url = longUrl;
 		lastAccessTime = Instant.now();
 		validity = Duration.ofHours(retentionPeriodHours);
+		ownerId = owner;
 	}
 
 	public String getUrl() {
@@ -40,4 +43,13 @@ public class CompleteUrl {
 	public void setValidity(Duration validity) {
 		this.validity = validity;
 	}
+
+	public String getOwnerId() {
+		return ownerId;
+	}
+
+	public void setOwnerId(String ownerId) {
+		this.ownerId = ownerId;
+	}
+
 }

@@ -9,6 +9,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.slf4j.Logger;
 
 import com.urlshortener.rest.api.UrlShortener;
@@ -22,14 +23,18 @@ public class RestUrlShortener implements UrlShortener {
 	@Inject
 	UrlShortenerService shortenerService;
 
+	@Inject
+	JsonWebToken jwt;
+
 	@Override
 	public Response shortenUrl(String longUrl) {
+		String owner = getOwner();
 		try {
 			URI uri = new URI(longUrl);
 		} catch (URISyntaxException e) {
 			return Response.status(Status.BAD_REQUEST).entity("Incorrect URL: " + longUrl).build();
 		}
-		return Response.status(Status.OK).entity(shortenerService.shortenUrl(longUrl)).build();
+		return Response.status(Status.OK).entity(shortenerService.shortenUrl(longUrl, owner)).build();
 	}
 
 	@Override
@@ -46,5 +51,13 @@ public class RestUrlShortener implements UrlShortener {
 			}
 		}
 		return Response.status(Status.NOT_FOUND).entity(shortUrl).build();
+	}
+
+	private String getOwner() {
+		if (null != jwt) {
+			return jwt.getName();
+		} else {
+			return "n/a";
+		}
 	}
 }

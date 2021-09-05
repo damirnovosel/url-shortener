@@ -44,7 +44,7 @@ public class UrlShortenerServiceStressTest {
 				public void run() {
 					// Generate 100 short URIs
 					for (int i = 0; i < numLoops; i++) {
-						testedService.shortenUrl("http://localhost:8080/hello");
+						testedService.shortenUrl("http://localhost:8080/hello", "owner");
 					}
 				}
 			});

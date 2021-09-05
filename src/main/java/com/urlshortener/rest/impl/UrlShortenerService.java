@@ -23,9 +23,9 @@ public class UrlShortenerService {
 	@ConfigProperty(name = "retentionPeriodHours")
 	Long retentionPeriodHours;
 
-	public String shortenUrl(String longUrl) {
+	public String shortenUrl(String longUrl, String owner) {
 		String shortUrl = ShortUrlGenerator.next();
-		CompleteUrl cUrl = new CompleteUrl(longUrl, retentionPeriodHours);
+		CompleteUrl cUrl = new CompleteUrl(longUrl, retentionPeriodHours, owner);
 		persister.persist(shortUrl, cUrl);
 		return shortUrl;
 	}

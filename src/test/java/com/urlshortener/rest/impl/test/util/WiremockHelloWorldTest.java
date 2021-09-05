@@ -5,8 +5,6 @@ import javax.ws.rs.core.Response.Status;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import com.urlshortener.rest.impl.GreetingResource;
-
 import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.RestAssured;
@@ -18,8 +16,8 @@ public class WiremockHelloWorldTest {
 
 	@Test
 	public void testHelperResource() {
-		Response response = RestAssured.given().when().get("/hello").andReturn();
-		Assertions.assertEquals(GreetingResource.message, response.getBody().asString());
+		Response response = RestAssured.given().when().get("http://localhost:8080/hello").andReturn();
 		Assertions.assertEquals(Status.OK.getStatusCode(), response.getStatusCode());
+		Assertions.assertEquals(WiremockHelloWorld.message, response.getBody().asString());
 	}
 }

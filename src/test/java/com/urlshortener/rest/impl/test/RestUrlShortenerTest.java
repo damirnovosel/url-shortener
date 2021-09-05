@@ -7,7 +7,6 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
-import com.urlshortener.rest.impl.GreetingResource;
 import com.urlshortener.rest.impl.test.util.WiremockHelloWorld;
 
 import io.quarkus.test.common.QuarkusTestResource;
@@ -58,7 +57,7 @@ public class RestUrlShortenerTest {
 
 		// expand it and check response
 		Response response2 = RestAssured.given().when().pathParam("shortUrl", short1).get("/{shortUrl}").andReturn();
-		Assertions.assertEquals(GreetingResource.message, response2.getBody().asString());
 		Assertions.assertEquals(Status.OK.getStatusCode(), response2.getStatusCode());
+		Assertions.assertEquals(WiremockHelloWorld.message, response2.getBody().asString());
 	}
 }

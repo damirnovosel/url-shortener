@@ -18,13 +18,16 @@ public class WiremockHelloWorld implements QuarkusTestResourceLifecycleManager {
 
 	private WireMockServer wireMockServer;
 
+	public static final String message = "Hello RESTEasy";
+
 	@Override
 	public Map<String, String> start() {
 		wireMockServer = new WireMockServer();
 		wireMockServer.start();
 		stubFor(get(urlEqualTo("/hello"))
-				.willReturn(aResponse().withHeader("Content-Type", MediaType.TEXT_PLAIN).withBody("Hello RESTEasy")));
-		return Collections.singletonMap("org.acme.rest.client.CountriesService/mp-rest/url", wireMockServer.baseUrl());
+				.willReturn(aResponse().withHeader("Content-Type", MediaType.TEXT_PLAIN).withBody(message)));
+		return Collections.singletonMap("com.urlshortener.rest.impl.test.util.WiremockHelloWorld/mp-rest/url",
+				wireMockServer.baseUrl());
 	}
 
 	@Override

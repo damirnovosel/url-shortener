@@ -5,6 +5,7 @@ import javax.inject.Inject;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
+import com.urlshortener.persistance.CompleteUrl;
 import com.urlshortener.persistance.Persister;
 
 @ApplicationScoped
@@ -16,12 +17,16 @@ public class UrlShortenerService {
 	@Inject
 	ShortUrlGenerator generator;
 
-	@ConfigProperty(name = "serviceUrl")
+	@ConfigProperty(name = "baseUrl")
 	String baseUrl;
+
+	@ConfigProperty(name = "retentionPeriodHours")
+	Long retentionPeriodHours;
 
 	public String shortenUrl(String longUrl) {
 		String shortUrl = ShortUrlGenerator.next();
-		persister.persist(shortUrl, longUrl);
+		CompleteUrl cUrl = new CompleteUrl(longUrl, retentionPeriodHours);
+		persister.persist(shortUrl, cUrl);
 		return shortUrl;
 	}
 

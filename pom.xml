@@ -76,18 +76,15 @@
       <artifactId>rest-assured</artifactId>
       <scope>test</scope>
     </dependency>
-<!-- 	<dependency> -->
-<!-- 	    <groupId>org.apache.logging.log4j</groupId> -->
-<!-- 	    <artifactId>log4j-slf4j-impl</artifactId> -->
-<!-- 	    <version>2.14.1</version> -->
-<!-- 	    <scope>test</scope> -->
-<!-- 	</dependency> -->
-<!-- https://mvnrepository.com/artifact/com.github.tomakehurst/wiremock -->
 	<dependency>
     	<groupId>com.github.tomakehurst</groupId>
     	<artifactId>wiremock</artifactId>
     	<version>2.27.2</version>
     	<scope>test</scope>
+	</dependency>
+	<dependency>
+    	<groupId>io.quarkus</groupId>
+    	<artifactId>quarkus-scheduler</artifactId>
 	</dependency>
   </dependencies>
 

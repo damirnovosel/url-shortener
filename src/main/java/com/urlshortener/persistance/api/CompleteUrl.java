@@ -1,4 +1,4 @@
-package com.urlshortener.persistance;
+package com.urlshortener.persistance.api;
 
 import java.time.Duration;
 import java.time.Instant;

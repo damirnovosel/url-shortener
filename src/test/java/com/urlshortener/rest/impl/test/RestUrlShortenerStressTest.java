@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.slf4j.Logger;
 
-import com.urlshortener.persistance.Persister;
+import com.urlshortener.persistance.api.Persister;
 import com.urlshortener.rest.impl.test.util.WiremockHelloWorld;
 
 import io.quarkus.test.common.QuarkusTestResource;

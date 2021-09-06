@@ -1,4 +1,4 @@
-package com.urlshortener.persistance;
+package com.urlshortener.persistance.mem;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -13,28 +13,35 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 
+import com.urlshortener.persistance.api.CompleteUrl;
+import com.urlshortener.persistance.api.Persister;
+
 import io.quarkus.scheduler.Scheduled;
 
 @ApplicationScoped
-public class Persister {
+public class PersisterMem implements Persister {
 
 	@Inject
 	Logger logger;
 
 	Map<String, CompleteUrl> urls = new ConcurrentHashMap<>(10000);
 
+	@Override
 	public int size() {
 		return urls.size();
 	}
 
+	@Override
 	public void invalidateAll() {
 		urls.clear();
 	}
 
+	@Override
 	public void persist(String shortUrl, CompleteUrl completeUrl) {
 		urls.put(shortUrl, completeUrl);
 	}
 
+	@Override
 	public String find(String shortUrl) {
 		CompleteUrl url = urls.get(shortUrl);
 		if (null != url) {
@@ -44,6 +51,7 @@ public class Persister {
 		}
 	}
 
+	@Override
 	public Set<String> getUrls() {
 		return urls.keySet();
 	}

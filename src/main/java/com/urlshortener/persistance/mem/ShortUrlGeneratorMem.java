@@ -8,7 +8,7 @@ import com.urlshortener.persistance.api.ShortUrlGenerator;
 
 @ApplicationScoped
 public class ShortUrlGeneratorMem implements ShortUrlGenerator {
-	private static AtomicLong id = new AtomicLong(1L);
+	private static AtomicLong id = new AtomicLong(0L);
 
 	@Override
 	public String next() {

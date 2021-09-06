@@ -1,0 +1,37 @@
+Project task was quite straightforward, with not too much details.
+
+Since I work for many years with quarkus.io java stack, initial idea was to see how it can be used for this project.
+But having in mind that requirements were quite simple, I found no valid reason why exactly to use such a complex stack.
+Instead, I decided to implement the solution as a simple java core app, and pack it into a docker container to make its use as simple as possible.
+
+Internal details:
+- Only configurable parameters are input and output directories, both directories must be present on file system when app is started
+- File format is decided based on a filename and extension
+- Parsing is done with com.fasterxml.jackson parsers for xml and json
+- All imported files are kept in-memory, in json format, merged together based on their giata-id and then written to output file merged.json
+- Downloading of images is implemented using a pool of 30 threads, for speedup.
+- Unit tests do not cover all features, they should be considered to be a sort of smoke-tests
+
+Possible improvements: 
+
+ 1) If same tag/node comes from two files, the previous tag value will be overwritten with the new value. 
+  	This happens for example for giataId 162838:
+  	content/hotel/address/Ölüdeniz vs. result/data/Stadtname/Fethiye
+    This problem is in the business-domain, application user should be asked about the desired outcome.
+ 
+ 2) Image content is written as binary data, whether it is acceptable or not should be discussed with the downstream user.
+ 
+ 3) Decision on having 30 threads for image download was based on my measurement, which was objective and repeatable, 
+    but still based on a specific network infrastructure that I use.
+ 	This parameter is a candidate for being a part of the configuration, so that it can be fine-tuned in case some problems arise.  
+ 
+ 4) More unit tests should be added if app is to be used for production.
+ 
+ 5) Making output file name configurable.
+ 
+ 6) Depending on the number of files that are expected for processing, in-memory store might not be a good choice. 
+ 	In that case temporary data could be stored either on a file system or in a database, depending on the actual processing requirements.
+ 
+ 7) Depending on the actual architecture where this app is supposed to be used, there might be need to convert it into a microservice.
+ 	This was out of the scope of the task, but is still an important detail that should be taken into consideration.    
+  

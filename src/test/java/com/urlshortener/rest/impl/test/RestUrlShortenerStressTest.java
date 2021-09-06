@@ -31,7 +31,7 @@ public class RestUrlShortenerStressTest {
 	@Inject
 	Persister persister;
 
-	private final int numThreads = 20;
+	private final int numThreads = 15;
 
 	private final int numLoops = 200;
 
